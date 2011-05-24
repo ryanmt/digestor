@@ -9,12 +9,12 @@ class Digestor
 		string.upcase!
 		holder = string.scan(@regexp).flatten.compact
 		outs = holder
-		if :missed_cleavages != 0
+		if opts[:missed_cleavages] != 0
 			outs << (1..(opts[:missed_cleavages]+1)).map do |cons|
 				holder.each_cons(cons).map(&:join)
 			end
 		end
-		outs = outs.flatten.map{|a| a if a.length >= opts[:minimum_length]}.compact.uniq
+		outs = outs.flatten.map{|a| a if a.length >= opts[:minimum_length]}.compact
 	end
 
 	Enzymes = {'trypsin' => Regexp.new('(\D*?[KR])(?=[^P])|([^P].*?\b)'), 
